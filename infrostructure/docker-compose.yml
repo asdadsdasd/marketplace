@@ -1,0 +1,23 @@
+services:
+
+  postgres-user:
+    image: postgres:16
+    container_name: postgres-user
+    environment:
+      POSTGRES_DB: ${USER_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  user-service:
+    image: user-service:latest
+    container_name: user-service
+    depends_on:
+      - postgres-user
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-user:5432/${USER_DB}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
