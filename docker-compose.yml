@@ -23,6 +23,9 @@ services:
   user-service:
     image: user-service:latest
     container_name: user-service
+    build:
+      dockerfile_inline: |
+        FROM user-service:latest
     depends_on:
       - postgres-user
     ports:
@@ -35,6 +38,9 @@ services:
   product-service:
     image: product-service:latest
     container_name: product-service
+    build:
+      dockerfile_inline: |
+        FROM product-service:latest
     depends_on:
       - postgres-product
     ports:

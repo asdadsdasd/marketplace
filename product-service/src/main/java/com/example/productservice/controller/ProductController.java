@@ -14,45 +14,26 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
-
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponse> create(
-            @RequestBody @Valid CreateProductRequest request
-    ) {
-
-        return ResponseEntity.ok(
-                productService.createProduct(request));
+    public ResponseEntity<ProductResponse> create(@RequestBody @Valid CreateProductRequest request) {
+        return ResponseEntity.ok(productService.createProduct(request));
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductResponse>> findAll(
-            Pageable pageable
-    ) {
-
-        return ResponseEntity.ok(
-                productService.findAll(pageable)
-        );
+    public ResponseEntity<Page<ProductResponse>> findAll(Pageable pageable) {
+        return ResponseEntity.ok(productService.findAll(pageable));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> findById(
-            @PathVariable Long id
-    ) {
-
-        return ResponseEntity.ok(
-                productService.findById(id)
-        );
+    public ResponseEntity<ProductResponse> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.findById(id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(
-            @PathVariable Long id
-    ) {
-
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         productService.delete(id);
-
         return ResponseEntity.noContent().build();
     }
 }
