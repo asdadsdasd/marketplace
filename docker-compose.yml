@@ -20,12 +20,18 @@ services:
     ports:
       - "5433:5432"
 
+  gateway-service:
+    image: gateway-service:latest
+    container_name: gateway-service
+    depends_on:
+      - user-service
+      - product-service
+    ports:
+      - "8080:8080"
+
   user-service:
     image: user-service:latest
     container_name: user-service
-    build:
-      dockerfile_inline: |
-        FROM user-service:latest
     depends_on:
       - postgres-user
     ports:
@@ -38,9 +44,6 @@ services:
   product-service:
     image: product-service:latest
     container_name: product-service
-    build:
-      dockerfile_inline: |
-        FROM product-service:latest
     depends_on:
       - postgres-product
     ports:
