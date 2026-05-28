@@ -1,5 +1,7 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.LoginRequest;
+import com.example.userservice.dto.LoginResponse;
 import com.example.userservice.dto.RegisterRequest;
 import com.example.userservice.service.UserService;
 import jakarta.validation.Valid;
@@ -20,5 +22,10 @@ public class UserController {
     public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
         userService.register(registerRequest);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return ResponseEntity.ok(userService.login(request));
     }
 }
