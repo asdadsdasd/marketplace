@@ -36,4 +36,12 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/me")
+    public String test(
+            @RequestHeader("X-User-Id") String userId,
+            @RequestHeader("X-User-Role") String role
+    ) {
+        return "User: " + userId + ", role: " + role;
+    }
 }

@@ -4,6 +4,7 @@ import com.example.userservice.dto.LoginRequest;
 import com.example.userservice.dto.LoginResponse;
 import com.example.userservice.dto.RegisterRequest;
 import com.example.userservice.entity.User;
+import com.example.userservice.entity.enums.Role;
 import com.example.userservice.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ public class UserService {
         User user = new User();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(Role.USER);
 
         userRepository.save(user);
     }
@@ -40,10 +42,6 @@ public class UserService {
             throw new RuntimeException("Invalid password");
         }
 
-        String token = jwtService.generateToken(
-                user.getEmail()
-        );
-
-        return new LoginResponse(token);
+        return new LoginResponse(jwtService.generateToken(user));
     }
 }
