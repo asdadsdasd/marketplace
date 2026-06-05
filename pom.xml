@@ -23,6 +23,7 @@
     </properties>
 
     <modules>
+        <module>common-library</module>
         <module>user-service</module>
         <module>product-service</module>
         <module>gateway-service</module>
