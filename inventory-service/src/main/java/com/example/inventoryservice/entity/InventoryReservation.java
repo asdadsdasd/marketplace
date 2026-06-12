@@ -1,11 +1,12 @@
 package com.example.inventoryservice.entity;
 
 import com.example.inventoryservice.entity.enums.ReservationStatus;
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.time.Instant;
 import java.util.List;
@@ -15,31 +16,27 @@ import java.util.UUID;
 @Setter
 @Getter
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class InventoryReservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "order_id", nullable = false)
+    @Field("order_id")
     private UUID orderId;
 
-    @Column(name = "correlation_id", nullable = false)
+    @Field("correlation_id")
     private UUID correlationId;
 
-    @Column(name = "reservation_items")
+    @Field("reservation_items")
     private List<ReservationItem> items;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
     private ReservationStatus status;
 
-    @CreationTimestamp
-    @Column(name = "created_at", updatable = false, nullable = false)
+    @CreatedDate
+    @Field("created_at")
     private Instant createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at", nullable = false)
+    @LastModifiedDate
+    @Field("updated_at")
     private Instant updatedAt;
 }

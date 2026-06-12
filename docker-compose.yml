@@ -55,6 +55,16 @@ services:
     ports:
       - "5434:5432"
 
+  mongodb-inventory:
+    image: mongo:7.0
+    container_name: mongodb-inventory
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${INVENTORY_MONGO_DB}
+    ports:
+      - "27017:27017"
+
   # SERVICES
   gateway-service:
     image: gateway-service:latest
@@ -106,4 +116,16 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-order:5432/${ORDER_DB}
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
+
+  inventory-service:
+    image: inventory-service:latest
+    container_name: inventory-service
+    depends_on:
+      - mongodb-inventory
+      - kafka
+    ports:
+      - "8084:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb-inventory:27017/${INVENTORY_MONGO_DB}?authSource=admin
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092

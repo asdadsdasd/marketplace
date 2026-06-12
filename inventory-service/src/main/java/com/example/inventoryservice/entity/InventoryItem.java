@@ -1,15 +1,10 @@
 package com.example.inventoryservice.entity;
 
-import com.example.inventoryservice.entity.enums.ReservationStatus;
-import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.UUID;
 
 @Document(collection = "inventory")
@@ -19,19 +14,19 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InventoryItem {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Field("name")
     private String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Field("description")
     private String description;
 
-    @Column(name = "available_quantity", nullable = false)
+    @Field("available_quantity")
     private Integer availableQuantity;
 
-    @Column(name = "reserved_quantity", nullable = false)
+    @Field("reserved_quantity")
     private Integer reservedQuantity;
 }
